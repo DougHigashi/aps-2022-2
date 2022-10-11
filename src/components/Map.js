@@ -10,7 +10,7 @@ import * as Location from 'expo-location';
 export default function Map() {
     const { coordinate, setCoordinate } = useCoord();
 
-    Location.requestPermissionsAsync()
+    Location.useForegroundPermissions();
 
     let isMounted;
 
@@ -25,7 +25,7 @@ export default function Map() {
         isMounted = true;
         console.log('mounting map');
         if (isMounted) {
-            navigator.geolocation.getCurrentPosition(
+            Location.getCurrentPositionAsync(
                 posicao => {
                     setLocation({
                         latitude: posicao.coords.latitude,
@@ -39,8 +39,7 @@ export default function Map() {
                     });
                 }
 
-            );
-        }
+            )}
 
         return () => { console.log('ummounting map'); isMounted = false };
     }, []

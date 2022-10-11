@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, Alert } from 'react-native';
+import React, {useState} from 'react';
+import { StyleSheet, View, TouchableOpacity, Text, Alert, ToastAndroid } from 'react-native';
 
 import Clipboard from 'expo-clipboard';
 import Map from '../components/Map'
@@ -11,10 +11,16 @@ import { useCoord } from '../contexts/Coordinate'
 export default function Location({ navigation }) {
     const { coordinate } = useCoord();
 
+    const [text, setText] = useState()
+
     const sendLocation = () => {
-        Clipboard.setString(`Estou na latitude ${coordinate.latitude} e longitude ${coordinate.longitude}`);
-        Alert.alert('Copiado', 'Sua localização foi copiada para a área de transferência!');
+        copyCoord()
+        ToastAndroid.show('Sua localização foi copiada para a área de transferência!', ToastAndroid.SHORT);
         navigation.navigate('Chat');
+    }
+
+    const copyCoord = async () => {
+        await Clipboard.setStringAsync(`Estou na latitude  e longitude `);
     }
 
     return (

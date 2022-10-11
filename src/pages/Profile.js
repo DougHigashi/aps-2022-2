@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity, Alert } from 'react-native'
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { StyleSheet, View, Text, TouchableOpacity, Alert } from 'react-native'
 import { auth } from '../config/Firebase';
 
 function Profile({ navigation }) {
@@ -16,7 +17,7 @@ function Profile({ navigation }) {
             },
             {
                 text: 'Ok',
-                onPress: () => { auth.signOut().then(() => { navigation.navigate('Login'); }); }
+                onPress: () => { auth.signOut().then(() => { navigation.replace('Login'); }); }
             }
         ])
     }
@@ -32,15 +33,17 @@ function Profile({ navigation }) {
                 {
                     text: "Sim",
                     onPress: () => {
-                        let user = auth?.currentUser;
-                        user.delete()
-                            .then(() => {
-                                Alert.alert('Deletado com sucesso')
-                                navigation.replace('Login')
-                            })
-                            .catch((error) => {
-                                Alert.alert('Ops!', error)
-                            });
+                        if (auth.currentUser !== null) {
+                            const user = auth.currentUser;
+                            user.delete()
+                                .then(() => {
+                                    Alert.alert('Deletado com sucesso')
+                                    navigation.replace('Login')
+                                })
+                                .catch((error) => {
+                                    Alert.alert('Ops!', error)
+                                });
+                        }
                     },
                 },
             ]
@@ -49,9 +52,11 @@ function Profile({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Image source={require('../assets/usuario.png')} style={styles.usuario} />
-            <Text style={styles.texto}>Nome: {nome}</Text>
-            <Text style={styles.texto}>Email: {email}</Text>
+            <Ionicons name='person' size={96} color='#308C30' />
+            <Text style={styles.texto}>Nome: </Text>
+            <Text>{nome}</Text>
+            <Text style={styles.texto}>Email: </Text>
+            <Text>{email}</Text>
 
             <TouchableOpacity onPress={() => { logOut() }} style={styles.botao}>
                 <Text style={styles.textobtn}>Sair</Text>

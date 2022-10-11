@@ -18,9 +18,22 @@ export default function Login({ navigation }) {
                 setPassword('');
                 navigation.navigate('Tabs');
             })
-            .catch((error) => {
+            .catch(error => {
                 console.log(error)
-                Alert.alert("Ops!", error.message);
+
+                switch (error.code) {
+                    case 'auth/weak-password':
+                        Alert.alert('Senha curta demais', 'Sua senha deve conter 6 caracteres ou mais.');
+                        break;
+                    case 'auth/invalid-email':
+                        Alert.alert('Email inválido', 'Por favor informe um endereço de email válido.');
+                        break;
+                    case 'auth/user-not-found':
+                        Alert.alert('Usuário inválido', 'O usuário informado não está cadastrado! Crie uma conta e tente novamente.');
+                        break;
+                    default:
+                        Alert.alert('Ops!', error.message);
+                }
             });
     }
 
@@ -35,7 +48,7 @@ export default function Login({ navigation }) {
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
-                <Text style={styles.esqueciSenha}>Se cadastrar</Text>
+                <Text style={styles.esqueciSenha}>Cadastre-se</Text>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => navigation.navigate('Esqueci')}>

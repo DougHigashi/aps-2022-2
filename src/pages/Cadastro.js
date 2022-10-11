@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { addDoc, collection } from 'firebase/firestore'
 import { auth, database } from '../config/Firebase';
 
@@ -14,7 +14,10 @@ export default function Cadastro({ navigation }) {
         createUserWithEmailAndPassword(auth, email, senha)
             .then((userCredential) => {
                 const user = userCredential.user;
-                console.log(userCredential)
+                user.displayName = nome;
+                updateProfile(auth.currentUser, {
+                    displayName: nome
+                  })
                 Alert.alert('Cadastrado com sucesso!', 'Sua conta foi criada com sucesso!', [{
                     text: "Ok",
                     onPress: () => {
@@ -22,8 +25,20 @@ export default function Cadastro({ navigation }) {
                         addDoc(collection(database, 'usuarios'), { email: email, nome: nome })
                     }
                 },]);
-            }).catch((e) => {
-                Alert.alert("Ops!", e.message);
+            }).catch(error => {
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        Alert.alert('Email em uso', 'O email informado já está em uso.');
+                        break;
+                    case 'auth/invalid-email':
+                        Alert.alert('Email inválido', 'Por favor informe um endereço de email válido.');
+                        break;
+                    case 'auth/weak-password':
+                        Alert.alert('Senha fraca', 'Sua senha deve conter 6 caracteres ou mais.');
+                        break;
+                    default:
+                        Alert.alert('Ops!', error.message);
+                }
             })
     }
 

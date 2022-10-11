@@ -23,7 +23,7 @@ const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 LogBox.ignoreLogs(['Setting a timer']);
 
-const DrawerS = () => {
+const ChatDrawer = () => {
   return (
     <Drawer.Navigator>
       <Drawer.Screen name="Chat" component={Chat} />
@@ -35,7 +35,7 @@ const DrawerS = () => {
 const Tabs = () => {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
+      screenOptions={({ route, color, size }) => ({
         tabBarIcon: ({ color, size }) => {
           let iconName;
 
@@ -58,7 +58,7 @@ const Tabs = () => {
         activeTintColor: '#308C30',
         inactiveTintColor: 'gray',
       }}>
-      <Tab.Screen name="Chat" component={DrawerS} />
+      <Tab.Screen name="Chat" component={ChatDrawer} />
       <Tab.Screen name="Location" component={Location} />
       <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
@@ -78,8 +78,6 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer >
     </CoordinateProvider>
-
-
   );
 }
 
