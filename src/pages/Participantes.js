@@ -22,24 +22,12 @@ function Participantes() {
                 setNome(list);
             })
 
-
-
-            // collection(database, "usuarios").onSnapshot((query) => {
-            //     const list = [];
-            //     query.forEach((doc) => {
-            //         list.push({ ...doc.data(), id: doc.id });
-            //     })
-            //     setNome(list);
-            // });
-
         }
         return () => { console.log('ummounting participants'); isMounted = false; }
     }, [])
 
     return (
         <View style={styles.container}>
-            <Image source={require('../assets/participantes.png')} style={styles.imagem} />
-            <Text style={styles.logo}>Participantes:</Text>
             <FlatList
                 data={nomes}
                 renderItem={({ item }) => <Text style={styles.item}>{item.nome}</Text>}

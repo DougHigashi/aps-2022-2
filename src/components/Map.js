@@ -5,12 +5,10 @@ import { useState, useEffect } from 'react'
 
 import { useCoord } from '../contexts/Coordinate'
 
-import * as Location from 'expo-location';
 
 export default function Map() {
     const { coordinate, setCoordinate } = useCoord();
 
-    Location.useForegroundPermissions();
 
     let isMounted;
 

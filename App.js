@@ -10,7 +10,6 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import CoordinateProvider from './src/contexts/Coordinate'
 import Login from './src/pages/Login'
-import Location from './src/pages/Location'
 import Cadastro from './src/pages/Cadastro'
 import Esqueci from './src/pages/Esqueci'
 import Chat from './src/pages/Chat'
@@ -26,8 +25,8 @@ LogBox.ignoreLogs(['Setting a timer']);
 const ChatDrawer = () => {
   return (
     <Drawer.Navigator>
-      <Drawer.Screen name="Chat" component={Chat} />
-      <Drawer.Screen name="Participantes" component={Participantes} />
+      <Drawer.Screen name="Chat" component={Chat} options={{headerShown: false}} />
+      <Drawer.Screen name="Participantes" component={Participantes} options={{headerShown: false}}  />
     </Drawer.Navigator>
   )
 }
@@ -40,9 +39,6 @@ const Tabs = () => {
           let iconName;
 
           switch (route.name) {
-            case 'Location':
-              iconName = 'map-outline';
-              break;
             case 'Chat':
               iconName = 'chatbox-ellipses-outline';
               break;
@@ -58,9 +54,8 @@ const Tabs = () => {
         activeTintColor: '#308C30',
         inactiveTintColor: 'gray',
       }}>
-      <Tab.Screen name="Chat" component={ChatDrawer} />
-      <Tab.Screen name="Location" component={Location} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Chat" component={ChatDrawer} screenOptions={{ headerShown: false }} />
+      <Tab.Screen name="Profile" component={Profile} screenOptions={{ headerShown: false }} />
     </Tab.Navigator>
 
   );
